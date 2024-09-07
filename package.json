@@ -1,5 +1,5 @@
 {
-  "name": "remix-app",
+  "name": "song-share-remix",
   "private": true,
   "sideEffects": false,
   "type": "module",

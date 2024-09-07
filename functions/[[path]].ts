@@ -5,4 +5,19 @@ import { createPagesFunctionHandler } from "@remix-run/cloudflare-pages";
 // eslint-disable-next-line import/no-unresolved
 import * as build from "../build/server";
 
-export const onRequest = createPagesFunctionHandler({ build });
+const remixHandler = createPagesFunctionHandler({ build });
+
+export const onRequest: PagesFunction<Env> = async (context) => {
+  const { request } = context;
+  const url = new URL(request.url);
+
+  // Custom endpoint logic with prefix
+  if (url.pathname.startsWith("/api/custom-endpoint")) {
+    return new Response("This is a custom endpoint!", {
+      headers: { "content-type": "text/plain" },
+    });
+  }
+
+  // Default to Remix handler
+  return remixHandler(context);
+};
